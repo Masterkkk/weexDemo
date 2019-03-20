@@ -82,7 +82,9 @@ const createLintingRule = () => ({
   //   emitWarning: !config.dev.showEslintErrorsInOverlay
   // }
 })
-const useEslint = config.dev.useEslint ? [createLintingRule()] : []
+const useEslint = config.dev.useEslint ? [
+  //createLintingRule()
+] : []
 
 /**
  * Plugins for webpack configuration.

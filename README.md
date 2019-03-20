@@ -63,3 +63,7 @@ $ npm i node-sass sass-loader --save
 【entry.js】默认的入口js，在webpack过程中会动态替换依赖的vue文件。
 
 【index.html】预览和Weex页面降级时用到的H5容器
+
+###备注：
+weex中1rem = 75px
+项目中的eslint我已经关闭了，打开的话去config/config.js中将useEslint改为true，同时将webpack.common.conf.js中的createLintingRule方法解开即可。
