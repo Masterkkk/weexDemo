@@ -69,25 +69,23 @@
         <!-- 首页消息通知区 -->
         <div class="home-message">
           <wxc-cell 
-              :has-arrow="true"
-              @wxcCellClicked="wxcCellClicked"
-              :has-bottom-border="false"
-              :has-top-border="false">
-              <image :src="iconMsg" style="width:90px;height:80px" slot="label"></image>
-              <div class="msg-list" slot="title">
-                <div class="msg-item" v-for="(item,index) in msgList" :key="index">
-                  <text class="msg-content">{{item.content}}</text><text class="msg-time">{{item.time}}</text>
-                </div>
+            :has-arrow="true"
+            @wxcCellClicked="wxcCellClicked"
+            :has-bottom-border="false"
+            :has-top-border="false">
+            <image :src="iconMsg" style="width:90px;height:80px" slot="label"></image>
+            <div class="msg-list" slot="title">
+              <div class="msg-item" v-for="(item,index) in msgList" :key="index">
+                <text class="msg-content">{{item.content}}</text><text class="msg-time">{{item.time}}</text>
               </div>
-            </wxc-cell>
+            </div>
+          </wxc-cell>
         </div>
         <!-- 首页广告区 -->
-        <div class="home-advertisement mt30">
-          <adver-card>
+        <div class="home-advertisement mt30" v-for="(item,index) in adverList" :key="index">
+          <adver-card
+            :adverItem="item">
 
-          </adver-card>
-          <adver-card>
-            
           </adver-card>
         </div>
       </div>
@@ -136,6 +134,19 @@ export default {
         iconReport: getImg('report.png'),
         iconPay: getImg('pay.png')
       },
+      adverList: [
+        {
+          imgUrl: 'http://static.ydcss.com/uploads/ydui/3.jpg',
+          title: '增值服务服务',
+          content: '更优质·更安心',
+          peopleNum: '666'
+        },{
+          imgUrl: 'http://static.ydcss.com/uploads/ydui/3.jpg',
+          title: '增值服务服务',
+          content: '更优质·更安心',
+          peopleNum: '666'
+        }
+      ],
       cellStyle: {
         height: '100px'
       },
