@@ -18,7 +18,7 @@
 
 <style lang="sass" scoped>
 	.advertisement-card
-		margin-top: 30px
+		margin-bottom: 30px
 		.advertisement-content
 			width: 690px
 			height: 388px

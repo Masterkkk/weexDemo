@@ -6,7 +6,7 @@
       title-type="icon"
       @wxcTabBarCurrentTabSelected="wxcTabBarCurrentTabSelected">
       <!-- 第一个页面内容-->
-      <div class="item-container">
+      <div class="item-container" :style="contentStyle">
         <!-- 首页头部区域 -->
         <div class="home-head mb17">
           <div class="home-head-sec1">
@@ -82,7 +82,7 @@
             </wxc-cell>
         </div>
         <!-- 首页广告区 -->
-        <div class="home-advertisement">
+        <div class="home-advertisement mt30">
           <adver-card>
 
           </adver-card>
@@ -93,13 +93,13 @@
       </div>
 
       <!-- 第二个页面内容-->
-      <div class="item-container"><text>特别推荐</text></div>
+      <div class="item-container" :style="contentStyle"><text>特别推荐</text></div>
 
       <!-- 第三个页面内容-->
-      <div class="item-container"><text>消息中心</text></div>
+      <div class="item-container" :style="contentStyle"><text>消息中心</text></div>
 
       <!-- 第四个页面内容-->
-      <div class="item-container">
+      <div class="item-container" :style="contentStyle">
         <text>我的主页</text>
         <image style="width:500px;height:500px" :src="testIcon"></image>
       </div>
@@ -125,6 +125,7 @@ export default {
       testIcon: getImg('icon_boss.png'),
       headIcon: getImg('user_icon.png'),
       iconMsg: getImg('show_msg.png'),
+      contentStyle: '',
       iconGroup: {
         iconPhone: getImg('phone.png'),
         iconService: getImg('service.png'),
@@ -190,6 +191,11 @@ export default {
       }],
     }
   },
+  created () {
+    const tabPageHeight = Utils.env.getPageHeight();
+    const { tabStyles } = this;
+    this.contentStyle = { height: (tabPageHeight - tabStyles.height) + 'px' };
+  },
   methods: {
     goTest () {
       const url = createLink('test', {
@@ -218,6 +224,7 @@ export default {
     background-color: #F8F8F8
     .item-container 
       width: 750px
+      overflow: scroll
       .mb17
         margin-bottom: 17px
       .mb30
@@ -272,6 +279,9 @@ export default {
       .home-message
         height: 133px
         background-color: $pageColor
+        .cell-indent
+          padding-bottom: 0
+          padding-top: 22px
         .msg-item
           padding-left: 40px
           display: flex
