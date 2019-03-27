@@ -91,7 +91,31 @@
       </div>
 
       <!-- 第二个页面内容-->
-      <div class="item-container" :style="contentStyle"><text>特别推荐</text></div>
+      <div class="item-container" :style="contentStyle">
+        <div class="sec-page_head">
+          <div class="clinic-info">
+            <text class="clinic-name">{{clinicInfo.name}}</text>
+            <wxc-cell 
+              :cell-style="infoStyle"
+              :has-arrow="false"
+              :has-top-border="false"
+              :has-bottom-border="false"
+              :auto-accessible="false">
+              <image :src="addressIcon" slot="label" style="width:35px;height:35px"></image>
+              <text class="address" slot="title">{{clinicInfo.address}}</text>
+            </wxc-cell>
+            <div class="doc-list">
+              <div class="doc-list_item" v-for="(item,index) in clinicInfo.docList" :key="index">
+                <image :src="item.img" style="width:104px;height:104px;border-radius:8px;"></image>
+                <text class="doc-name">{{item.name}}</text>
+              </div>
+            </div>
+            <div class="report-content">
+              <text class="report-title">报告处理</text>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- 第三个页面内容-->
       <div class="item-container" :style="contentStyle"><text>消息中心</text></div>
@@ -123,6 +147,7 @@ export default {
       testIcon: getImg('icon_boss.png'),
       headIcon: getImg('user_icon.png'),
       iconMsg: getImg('show_msg.png'),
+      addressIcon: getImg('address.png'),
       contentStyle: '',
       iconGroup: {
         iconPhone: getImg('phone.png'),
@@ -154,6 +179,12 @@ export default {
         backgroundColor: '#EFF5FF',
         height: '64px',
         width: '664px'
+      },
+      infoStyle: {
+        background: 'none',
+        paddingLeft: '0',
+        paddingTop: '10px',
+        paddingBottom: '10px',
       },
       tabTitles: [
         {
@@ -200,6 +231,24 @@ export default {
         content: '您的检测预约成功',
         time: '2天前'
       }],
+      clinicInfo: {
+        name: '皮皮诊所',
+        address: '厦门湖里区',
+        docList: [{
+          img: 'https://img.alicdn.com/tfs/TB1eLvjSXXXXXaiXXXXXXXXXXXX-144-166.jpg',
+          name: '皮皮'
+        },{
+          img: 'https://img.alicdn.com/tfs/TB1eLvjSXXXXXaiXXXXXXXXXXXX-144-166.jpg',
+          name: '皮皮'
+        },{
+          img: 'https://img.alicdn.com/tfs/TB1eLvjSXXXXXaiXXXXXXXXXXXX-144-166.jpg',
+          name: '皮皮'
+        },{
+          img: 'https://img.alicdn.com/tfs/TB1eLvjSXXXXXaiXXXXXXXXXXXX-144-166.jpg',
+          name: '皮皮'
+        }]
+      },
+      
     }
   },
   created () {
@@ -302,4 +351,47 @@ export default {
             margin-right: 19px
           .msg-time
             color: #999999
+    .sec-page_head
+      position: relative
+      height: 500px
+      background: linear-gradient(180deg,rgba(67,130,154,1) 0%,rgba(130,174,186,1) 100%)
+      .clinic-info
+        padding-left: 50px
+        padding-top: 50px
+        .clinic-name
+          font-size: 44px
+          color: #ffffff
+          font-weight: bold
+        .address
+          font-size: 26px
+          color: #ffffff
+          margin-left: 5px
+        .doc-list
+          flex-direction: row
+          overflow: scroll
+          margin-top: 40px
+          .doc-list_item
+            flex-direction: row
+            align-items: center
+            margin-right: 30px
+            .doc-name
+              font-size: 26px
+              color: #ffffff
+              margin-left: 20px
+        .report-content
+          position: absolute
+          bottom: -340px
+          left: 30px
+          background-color: #ffffff
+          width: 690px
+          height: 276px
+          border-radius: 15px
+        .report-content
+          .report-title
+            height: 60px
+            font-size: 26px
+            color: #7D7D91
+            margin-top: 20px
+            padding-left: 20px
+            border-bottom: 1px solid #D6DAE3
 </style>
