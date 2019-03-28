@@ -91,7 +91,7 @@
       </div>
 
       <!-- 第二个页面内容-->
-      <div class="item-container" :style="contentStyle">
+      <div class="item-container white-page" :style="contentStyle">
         <div class="sec-page_head">
           <div class="clinic-info">
             <text class="clinic-name">{{clinicInfo.name}}</text>
@@ -112,8 +112,36 @@
             </div>
             <div class="report-content">
               <text class="report-title">报告处理</text>
+              <div class="report-item">
+                <div class="report-item_transport">
+                  <image :src="reportIcon.car" style="width:64px;height:64px"></image>
+                  <text class="report-item_title">运输中</text>
+                </div>
+                <div class="report-item_microscope">
+                  <image :src="reportIcon.microscope" style="width:64px;height:64px"></image>
+                  <text class="report-item_title">检验中</text>
+                </div>
+                <div class="report-item_print">
+                  <image :src="reportIcon.print" style="width:64px;height:64px"></image>
+                  <text class="report-item_title">报告</text>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
+        <div class="sec-page_content">
+          <text style="fontSize: 26px;color: #7D7D91;margin-bottom: 21px;">顾客</text>
+          <wxc-cell 
+            v-for="(item,index) in customer"
+            :key="index"
+            :cell-style="infoStyle"
+            :has-arrow="true"
+            :has-top-border="false"
+            :has-bottom-border="false"
+            :auto-accessible="false">
+            <image :src="item.img" slot="label" style="width:100px;height:100px;border-radius:10px"></image>
+            <text class="customer-name" slot="title">{{item.name}}</text>
+          </wxc-cell>
         </div>
       </div>
 
@@ -158,6 +186,11 @@ export default {
         iconWatch: getImg('watch.png'),
         iconReport: getImg('report.png'),
         iconPay: getImg('pay.png')
+      },
+      reportIcon: {
+        car: getImg('car.png'),
+        microscope: getImg('microscope.png'),
+        print: getImg('print.png')
       },
       adverList: [
         {
@@ -248,7 +281,13 @@ export default {
           name: '皮皮'
         }]
       },
-      
+      customer: [{
+        img: 'https://img.alicdn.com/tfs/TB1eLvjSXXXXXaiXXXXXXXXXXXX-144-166.jpg',
+        name: '瓜皮'
+      },{
+        img: 'https://img.alicdn.com/tfs/TB1eLvjSXXXXXaiXXXXXXXXXXXX-144-166.jpg',
+        name: '皮皮虾'
+      }],
     }
   },
   created () {
@@ -282,6 +321,8 @@ export default {
   $footColor: #5387D9
   #home
     background-color: #F8F8F8
+    .white-page
+      background-color: #ffffff
     .item-container 
       width: 750px
       overflow: scroll
@@ -351,6 +392,7 @@ export default {
             margin-right: 19px
           .msg-time
             color: #999999
+    
     .sec-page_head
       position: relative
       height: 500px
@@ -386,7 +428,7 @@ export default {
           width: 690px
           height: 276px
           border-radius: 15px
-        .report-content
+          border: 1px solid rgba(20,32,64,0.1)
           .report-title
             height: 60px
             font-size: 26px
@@ -394,4 +436,22 @@ export default {
             margin-top: 20px
             padding-left: 20px
             border-bottom: 1px solid #D6DAE3
+          .report-item
+            flex-direction: row
+            align-items: center
+            justify-content: space-around
+            height: 200px
+            .report-item_transport,.report-item_microscope,.report-item_print
+              flex: 1
+              align-items: center
+            .report-item_title
+              font-size: 26px
+              color: #7D7D91
+              margin-top: 10px
+    .sec-page_content
+      padding-top: 176px    
+      padding-left: 50px
+      .customer-name
+        margin-left: 21px
+        font-size: 30px
 </style>
