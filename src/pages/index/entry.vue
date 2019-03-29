@@ -149,16 +149,80 @@
       <div class="item-container" :style="contentStyle"><text>消息中心</text></div>
 
       <!-- 第四个页面内容-->
-      <div class="item-container" :style="contentStyle">
-        <text>我的主页</text>
-        <image style="width:500px;height:500px" :src="testIcon"></image>
+      <div class="item-container white-page" :style="contentStyle">
+        <wxc-minibar 
+          title="我的"
+          background-color="#ffffff"
+          text-color="#333333"
+          left-button=""
+          @wxcMinibarLeftButtonClicked="minibarLeftButtonClick"
+          @wxcMinibarRightButtonClicked="minibarRightButtonClick"></wxc-minibar>
+        <!-- 我的头部 -->
+        <div class="my-head row">
+          <image :src="myInfo.img" style="width:210px;height:210px;border-radius:15px"></image>
+          <div class="my-head_info">
+            <text style="font-size:26px;color:#7D7D91">医生</text>
+            <text style="font-size:26px;color:#7D7D91;margin-top:60px">{{myInfo.address}}</text>
+          </div>
+        </div>
+        <!-- 余额积分显示区 -->
+        <div class="my-balance">
+          <text style="font-size:30px;color:#0FD1C2;padding-left:50px;padding-bottom:15px;border-bottom:1px solid #E6EBF5;">会员信息</text>
+          <div class="my-balance_info row align-center">
+            <div class="my-balance_point fx1 align-center">
+              <text class="my-balance_title">积分</text>
+              <div class="my-point_content row align-center">
+                <image :src="balanceIcon" style="width:32px;height:32px;margin-right:20px"></image>
+                <text class="my-balance_num" style="margin-right:15px">{{myInfo.point}}</text>
+                <wxc-button 
+                  text="去赚积分"
+                  type="white"
+                  :btnStyle="pointStyle"
+                  :textStyle="pointText"
+                  @wxcButtonClicked="getMorePoint" size="small"></wxc-button>
+              </div>
+            </div>
+            <div class="my-balance_count fx1 align-center">
+              <text class="my-balance_title">余额</text>
+              <div class="my-balance_content row align-center">
+                <image :src="balanceIcon2" style="width:32px;height:32px;margin-right:20px"></image>
+                <text class="my-balance_num">{{myInfo.balance}}</text>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 订单区域 -->
+        <div class="my-orders">
+          <div class="my-order_title row">
+            <text>我的订单</text>
+            <text>查看全部订单</text>
+          </div>
+          <div class="my-order_content row align-center">
+            <div class="my-order_item1 fx1 align-center">
+              <image :src="orderIcon.walletIcon" style="width:47px;height:41px"></image>
+              <text class="my-order_item_title">待付款</text>
+            </div>
+            <div class="my-order_item2 fx1 align-center">
+              <image :src="orderIcon.shoppingIcon" style="width:47px;height:41px"></image>
+              <text class="my-order_item_title">待发货</text>
+            </div>
+            <div class="my-order_item3 fx1 align-center">
+              <image :src="orderIcon.courierIcon" style="width:47px;height:41px"></image>
+              <text class="my-order_item_title">待收货</text>
+            </div>
+            <div class="my-order_item4 fx1 align-center">
+              <image :src="orderIcon.packageIcon" style="width:47px;height:41px"></image>
+              <text class="my-order_item_title">已完成</text>
+            </div>            
+          </div>
+        </div>
       </div>
     </wxc-tab-bar>
   </div>
 </template>
 
 <script>
-import { WxcCell, WxcTabBar, Utils } from 'weex-ui';
+import { WxcCell, WxcTabBar, Utils, WxcMinibar, WxcButton } from 'weex-ui';
 import { createLink, getImg } from '../../utils/index'
 import AdverCard from '../../components/advertisement'
 const navigator = weex.requireModule('navigator')
@@ -168,7 +232,9 @@ export default {
   components: {
     WxcTabBar,
     WxcCell,
-    AdverCard
+    AdverCard,
+    WxcMinibar,
+    WxcButton
   },
   data () {
     return {
@@ -176,6 +242,8 @@ export default {
       headIcon: getImg('user_icon.png'),
       iconMsg: getImg('show_msg.png'),
       addressIcon: getImg('address.png'),
+      balanceIcon: getImg('balance_icon.png'),
+      balanceIcon2: getImg('balance_icon2.png'),
       contentStyle: '',
       iconGroup: {
         iconPhone: getImg('phone.png'),
@@ -191,6 +259,12 @@ export default {
         car: getImg('car.png'),
         microscope: getImg('microscope.png'),
         print: getImg('print.png')
+      },
+      orderIcon: {
+        walletIcon: getImg('wallet.png'),
+        shoppingIcon: getImg('shopping_cart.png'),
+        courierIcon: getImg('courier.png'),
+        packageIcon: getImg('package.png'),
       },
       adverList: [
         {
@@ -218,6 +292,14 @@ export default {
         paddingLeft: '0',
         paddingTop: '10px',
         paddingBottom: '10px',
+      },
+      pointStyle: {
+        borderColor: '#FFB400',
+        borderWidth: '1px',
+        width: '140px'
+      },
+      pointText: {
+        color: '#FFB400'
       },
       tabTitles: [
         {
@@ -288,6 +370,13 @@ export default {
         img: 'https://img.alicdn.com/tfs/TB1eLvjSXXXXXaiXXXXXXXXXXXX-144-166.jpg',
         name: '皮皮虾'
       }],
+      myInfo: {
+        img: 'https://img.alicdn.com/tfs/TB1eLvjSXXXXXaiXXXXXXXXXXXX-144-166.jpg',
+        name: '皮皮',
+        balance: '666',
+        point: '123',
+        address: '厦门湖里区',
+      }
     }
   },
   created () {
@@ -311,6 +400,18 @@ export default {
     },
     wxcCellClicked(){
       console.log('点击姓名')
+    },
+    // 头部导航左边按钮点击
+    minibarLeftButtonClick(){
+      console.log('点击左边按钮');
+    },
+    // 头部导航右边按钮点击
+    minibarRightButtonClick(){
+      console.log('点击右边按钮');
+    },
+    // 赚积分
+    getMorePoint(){
+      console.log('赚积分');
     }
   }
 }
@@ -321,6 +422,12 @@ export default {
   $footColor: #5387D9
   #home
     background-color: #F8F8F8
+    .row
+      flex-direction: row
+    .align-center
+      align-items: center
+    .fx1
+      flex: 1
     .white-page
       background-color: #ffffff
     .item-container 
@@ -454,4 +561,39 @@ export default {
       .customer-name
         margin-left: 21px
         font-size: 30px
+    .my-head
+      padding-left: 50px
+      padding-top: 30px
+      padding-bottom: 30px
+      .my-head_info
+        margin-left: 30px
+    .my-balance
+      .my-balance_title
+        font-size: 26px
+        color: #2E2E40
+        text-align: center
+        margin-bottom: 20px
+      .my-balance_num
+        font-size: 70px
+        font-weight: bold
+      .my-balance_info
+        height: 250px
+        justify-content: space-around
+    .my-orders
+      margin: 0 30px 
+      border: 1px solid rgba(20,32,64,0.07)
+      border-radius: 18px
+      .my-order_title
+        padding: 18px
+        border-bottom: 1px solid #D6DAE3
+        justify-content: space-between
+        p
+          font-size: 26px 
+          color: #7D7D91
+      .my-order_content
+        height: 195px
+        .my-order_item_title
+          font-size: 30px 
+          color: #7D7D91
+          margin-top: 14px
 </style>
