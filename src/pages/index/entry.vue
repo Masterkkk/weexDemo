@@ -146,7 +146,9 @@
       </div>
 
       <!-- 第三个页面内容-->
-      <div class="item-container" :style="contentStyle"><text>消息中心</text></div>
+      <div class="item-container white-page" :style="contentStyle">
+        <page-third></page-third>
+      </div>
 
       <!-- 第四个页面内容-->
       <div class="item-container white-page" :style="contentStyle">
@@ -225,6 +227,7 @@
 import { WxcCell, WxcTabBar, Utils, WxcMinibar, WxcButton } from 'weex-ui';
 import { createLink, getImg } from '../../utils/index'
 import AdverCard from '../../components/advertisement'
+import PageThird from './pageThird'
 const navigator = weex.requireModule('navigator')
 
 export default {
@@ -234,7 +237,8 @@ export default {
     WxcCell,
     AdverCard,
     WxcMinibar,
-    WxcButton
+    WxcButton,
+    PageThird
   },
   data () {
     return {
@@ -313,7 +317,7 @@ export default {
           activeIcon: getImg('clinic_active.png')
         },
         {
-          title: '商城',
+          title: '娱乐',
           icon: getImg('shop.png'),
           activeIcon: getImg('shop_active.png'),
           badge: 5

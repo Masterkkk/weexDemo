@@ -16,6 +16,9 @@ module.exports = (options) => {
       usePostCSS: options && options.usePostCSS
     }),
     cssSourceMap: sourceMapEnabled,
-    cacheBusting: config.dev.cacheBusting
+    cacheBusting: config.dev.cacheBusting,
+    lang: {
+      sass: ['sass-loader']
+    }
   }
 }
